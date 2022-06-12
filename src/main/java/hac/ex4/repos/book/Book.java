@@ -1,7 +1,8 @@
-package hac.ex4.repos;
+package hac.ex4.repos.book;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import org.hibernate.validator.constraints.URL;
 public class Book {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank(message = "Name is mandatory")
@@ -25,25 +26,29 @@ public class Book {
 
     @PositiveOrZero(message = "Quantity must be equal or greater than zero")
     @NotNull(message = "Quantity is mandatory")
-    private int quantity;
+    private Integer quantity;
 
     @Positive(message = "Price must be greater than zero")
     @NotNull(message = "Price is mandatory")
-    private double price;
+    private Double price;
 
     @PositiveOrZero(message = "Discount must be equal or greater than zero")
     @NotNull(message = "Discount is mandatory")
-    private double discount;
+    private Double discount;
 
     public Book() {
     }
 
-    public Book(String name, String image, int quantity, double price, double discount) {
+    public Book(String name, String image, Integer quantity, Double price, Double discount) {
         this.name = name;
         this.image = image == null ? "../../../../resources/static/asserts/default_cover.jpg" : image;
         this.quantity = quantity;
         this.price = price;
         this.discount = discount;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -66,27 +71,27 @@ public class Book {
         this.image = image;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
+    public Double getPrice() {
+        return this.price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public double getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 

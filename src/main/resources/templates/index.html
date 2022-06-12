@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
   <head>
     <title>Book Store</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -13,6 +17,21 @@
     />
   </head>
   <body>
+    <h3 th:inline="text" sec:authorize="isAuthenticated()">
+      Welcome [[${#httpServletRequest.remoteUser}]] Logged user:
+      <span sec:authentication="name"></span> | Roles:
+      <span sec:authentication="principal.authorities"></span> |
+    </h3>
+    <div class="button-group" sec:authorize="!isAuthenticated()">
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </div>
+    <div class="button-group" sec:authorize="isAuthenticated()">
+      <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout" />
+      </form>
+    </div>
+
     <div class="container-fluid">
       <div class="row">
         <a href="/addbook">Add a Book</a>
@@ -42,6 +61,14 @@
                   <td th:text="${book.quantity}"></td>
                   <td th:text="${book.discount}"></td>
                   <td th:href="@{book.image}"></td>
+                  <td sec:authorize="hasAuthority('ADMIN')">
+                    <a
+                      class="btn btn-primary"
+                      th:href="@{/updatebook/{id}(id=${book.id})}"
+                    >
+                      update book
+                    </a>
+                  </td>
                 </tr>
               </tbody>
             </table>

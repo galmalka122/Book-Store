@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Add Book</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -17,7 +13,12 @@
     />
   </head>
   <body>
-    <form action="#" th:action="@{/addbook}" th:object="${book}" method="post">
+    <form
+      action="#"
+      th:action="@{/updatebook}"
+      th:object="${book}"
+      method="post"
+    >
       <div class="row">
         <div class="form-group col-auto">
           <label for="name" class="col-form-label">Book Name:</label>
