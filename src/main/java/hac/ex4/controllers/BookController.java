@@ -3,19 +3,15 @@ package hac.ex4.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import hac.ex4.repos.book.Book;
 import hac.ex4.repos.book.BookRepository;
-import hac.ex4.repos.user.User;
-import hac.ex4.repos.user.UserRepository;
 
 @Controller
 public class BookController {
@@ -27,34 +23,6 @@ public class BookController {
 
     private BookRepository getRepo() {
         return repo;
-    }
-
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepo;
-
-    private UserRepository getUserRepo() {
-        return userRepo;
-    }
-
-    @GetMapping("/")
-    public String main(Book book, Model model) {
-        model.addAttribute(REPONAME, getRepo().findAll());
-        return "index";
-    }
-
-    @RequestMapping("/login-error")
-    public String loginError(Model model) {
-        model.addAttribute("loginError", true);
-        return "login";
-    }
-
-    /** Login form. */
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
     }
 
     @GetMapping("/addbook")
@@ -93,23 +61,4 @@ public class BookController {
         return "index";
     }
 
-    @GetMapping("/register")
-    public String showRegistrationForm(User user, Model model) {
-        return "signup";
-    }
-
-    @PostMapping("/process_register")
-    public String processRegister(@Valid User user, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
-            return "signup";
-        }
-
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
-        getUserRepo().save(user);
-
-        return "redirect:/";
-    }
 }

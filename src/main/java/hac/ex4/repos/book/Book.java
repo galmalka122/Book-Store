@@ -1,18 +1,19 @@
 package hac.ex4.repos.book;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
-import org.hibernate.validator.constraints.URL;
-
 @Entity
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +22,6 @@ public class Book {
     @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @URL
     private String image;
 
     @PositiveOrZero(message = "Quantity must be equal or greater than zero")
@@ -39,24 +39,25 @@ public class Book {
     public Book() {
     }
 
-    public Book(String name, String image, Integer quantity, Double price, Double discount) {
+    public Book(Long id, String name, String image, Integer quantity, Double price, Double discount) {
+        this.id = id;
         this.name = name;
-        this.image = image == null ? "../../../../resources/static/asserts/default_cover.jpg" : image;
+        this.image = image;
         this.quantity = quantity;
         this.price = price;
         this.discount = discount;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getId() {
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -64,7 +65,7 @@ public class Book {
     }
 
     public String getImage() {
-        return image;
+        return this.image;
     }
 
     public void setImage(String image) {
@@ -72,7 +73,7 @@ public class Book {
     }
 
     public Integer getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
     public void setQuantity(Integer quantity) {
@@ -88,11 +89,17 @@ public class Book {
     }
 
     public Double getDiscount() {
-        return discount;
+        return this.discount;
     }
 
     public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
+    @PrePersist
+    void preInsert() {
+        if (this.image == null || this.image.equals("")) {
+            this.image = "/asserts/default_cover.jpg";
+        }
+    }
 }
