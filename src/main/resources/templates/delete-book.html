@@ -1,0 +1,60 @@
+<div
+  th:replace="../fragments/modal.html :: modal(id=${'delete-modal'},title=${'Are you sure you want to delete?'},body=(~{::div.modal-body}))"
+>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col">
+        <table class="table table-border h-100">
+          <tbody>
+            <tr>
+              <td>
+                <table
+                  class="table table-borderless h-100 modal-dialog-centered"
+                >
+                  <tr>
+                    <th scope="row">Name:</th>
+                    <td th:text="${book.name}" class="fw-normal"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Price:</th>
+                    <td th:text="${book.price}" class="fw-normal"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Quaantity:</th>
+                    <td th:text="${book.quantity}" class="fw-normal"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Discount:</th>
+                    <td th:text="${book.discount}" class="fw-normal"></td>
+                  </tr>
+                </table>
+              </td>
+
+              <td>
+                <div class="container">
+                  <img th:src="${book.image}" alt="cover" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr />
+      <div class="col-auto mx-auto text-center my-3">
+        <form
+          th:action="@{/admin/delete/{id}(id=${book.id})}"
+          th:object="${book}"
+          method="post"
+          id="edit-form"
+        >
+          <button type="submit" class="btn btn-primary">
+            <strong>Yes</strong>
+          </button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            No
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

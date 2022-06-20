@@ -1,13 +1,54 @@
-<div th:fragment="card (book)" class="card text-center">
-  <img th:src="${book.image}" alt="cover" class="card-img-top" height="140" width="92" />
+<div
+  th:fragment="card (book)"
+  class="card text-center"
+  th:with="dis=${book.getPriceAfterDiscount()}"
+>
+  <img
+    th:src="${book.image}"
+    alt="cover"
+    class="card-img-top"
+    height="140"
+    width="92"
+  />
   <div class="card-body">
-    <h3 th:text="${book.name}" class="card-title"></h3>
+    <div
+      th:text="${book.name}"
+      class="card-title text-responsive fw-bold"
+    ></div>
     <p class="card-text">
-        <h3 th:text="${book.price}" class="text-warning"></h3>
+      <span
+        th:text="${book.price}"
+        th:classappend="${book.price} > ${book.getPriceAfterDiscount()} ? 'text-danger text-decoration-line-through' : ''"
+        class="text-responsive"
+      >
+      </span>
+      <span
+        th:text="${dis < book.price} ? |${dis} $| : '$'"
+        th:classappend="${dis < book.price} ? text-success : '' "
+        class="text-responsive"
+      ></span>
     </p>
-    <a th:classappend="${book.quantity == 0} ? ' disabled' : ''" href="#" class="btn btn-primary"
-      ><span
-        th:text="${book.quantity == 0} ? 'Currently unavailable' : 'Add to basket'"
-    /></a>
+    <button
+      th:classappend="${book.quantity == 0} ? ' disabled' : ''"
+      th:href="@{/store/addbasket/{id}(id=${book.id})}"
+      class="btn btn-primary add-basket"
+      th:text="${book.quantity == 0} ? 'Currently unavailable' : 'Add to basket'"
+    ></button>
+  </div>
+  <div
+    class="toast align-items-center text-bg-primary border-0"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body" th:text="${Msg}"></div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
   </div>
 </div>

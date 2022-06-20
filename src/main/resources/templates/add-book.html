@@ -1,118 +1,79 @@
-<!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+<div
+  th:replace="../fragments/modal.html :: modal(id=${'add-modal'},title=${'Add Book'},body=(~{::div.modal-body}))"
 >
-  <head>
-    <title>Add Book</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
+  <div class="modal-body">
     <form
+      id="edit-form"
       action="#"
       th:action="@{/admin/addbook}"
       th:object="${book}"
       method="post"
     >
       <div class="row">
-        <div class="form-group col-auto">
+        <div class="col-12">
           <label for="name" class="col-form-label">Book Name:</label>
           <input
+            required
             type="text"
             name="name"
-            th:field="*{name}"
+            value=""
             class="form-control"
             id="name"
             placeholder="name"
           />
-          <span
-            th:if="${#fields.hasErrors('name')}"
-            th:errors="*{name}"
-            class="text-danger"
-          ></span>
         </div>
-        <div class="form-group col-auto">
+        <div class="col-12">
           <label for="price" class="col-form-label">Price:</label>
           <input
-            type="text"
+            type="number"
             name="price"
-            th:field="*{price}"
+            value=""
             class="form-control"
             id="price"
             placeholder="price"
           />
-          <span
-            th:if="${#fields.hasErrors('price')}"
-            th:errors="*{price}"
-            class="text-danger"
-          ></span>
         </div>
-        <div class="form-group col-auto">
-          <label for="quantity" class="col-form-label">Quantity:</label>
-          <input
-            type="text"
-            name="quantity"
-            th:field="*{quantity}"
-            class="form-control"
-            id="quantity"
-            placeholder="quantity"
-          />
-          <span
-            th:if="${#fields.hasErrors('quantity')}"
-            th:errors="*{quantity}"
-            class="text-danger"
-          ></span>
-        </div>
-        <div class="form-group col-auto">
+        <div class="col-12">
           <label for="discount" class="col-form-label">Discount:</label>
           <input
             type="text"
             name="discount"
-            th:field="*{discount}"
+            value=""
             class="form-control"
             id="discount"
             placeholder="discount"
           />
-          <span
-            th:if="${#fields.hasErrors('discount')}"
-            th:errors="*{discount}"
-            class="text-danger"
-          ></span>
         </div>
-        <div class="form-group col-auto">
+        <div class="col-12">
+          <label for="quantity" class="col-form-label">Quantity:</label>
+          <input
+            type="number"
+            name="quantity"
+            value=""
+            class="form-control"
+            id="quantity"
+            placeholder="quantity"
+          />
+        </div>
+        <div class="col-12">
           <label for="image" class="col-form-label">Book Cover:</label>
           <input
             type="text"
             name="image"
-            th:field="*{image}"
+            value=""
             class="form-control"
             id="image"
             placeholder="image"
           />
-          <span
-            th:if="${#fields.hasErrors('image')}"
-            th:errors="*{image}"
-            class="text-danger"
-          ></span>
         </div>
       </div>
-      <div class="row">
-        <button class="btn btn-primary" type="submit">Publish</button>
+      <hr />
+      <div class="col-auto text-center my-3">
+        <button class="btn btn-primary" type="submit">Add</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          Changes
+        </button>
       </div>
     </form>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
+  </div>
+</div>

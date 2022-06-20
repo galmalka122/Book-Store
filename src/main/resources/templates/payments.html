@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+  <head
+    th:replace="../fragments/head.html :: head((~{::title},~{::link},~{::script}))"
+  >
+    <header th:replace="../fragments/header.html :: header"></header>
+    <title>Manage Store</title>
+    <link rel="stylesheet" href="/resources/css/admin.css" />
+    <script type="module" src="/resources/js/admin.js"></script>
+    <script type="module" src="/resources/js/edit.js"></script>
+  </head>
+  <body class="container-fluid">
+    <div class="row overflow-auto">
+      <div class="col-12 mx-auto fw-bold text-center my-3">
+        Total Amount:<span th:text="' ' + ${total} + ' '" class="fw-bold"></span
+        >$
+      </div>
+      <div th:switch="${listProducts.size()}" class="col-auto mx-auto">
+        <div th:case="0">No orders yet!</div>
+        <div th:case="*">
+          <table class="table table-striped w-auto table-responsive">
+            <caption>
+              payments
+            </caption>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="book : ${listProducts}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.date}"></td>
+                <td th:text="${book.amount}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<div
+  class="modal modal-alert position-static d-block bg-secondary py-5"
+  tabindex="-1"
+  role="dialog"
+  id="modalChoice"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-3 shadow">
+      <div class="modal-body p-4 text-center">
+        <h5 class="mb-0">
+          Delete Book Id: <span th:text="${book.id}"></span>?
+        </h5>
+        <p class="mb-0">
+            
+            <h6>Name: </h6><span th:text="${book.name}"></span>
+            <h6>Price: </h6><span th:text="${book.price}"></span>
+            <h6>Quaantity: </h6><span th:text="${book.quantity}"></span>
+            <h6>Discount: </h6><span th:text="${book.discount}"></span>
+        </p>
+      </div>
+      <div class="modal-footer flex-nowrap p-0">
+        <button
+          type="button"
+          class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
+        >
+          <strong>Yes, delete</strong>
+        </button>
+        <button
+          type="button"
+          class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+          data-bs-dismiss="modal"
+        >
+          No thanks
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

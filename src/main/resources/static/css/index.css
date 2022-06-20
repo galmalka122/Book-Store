@@ -1,0 +1,44 @@
+.ratio {
+  --bs-aspect-ratio: 100%;
+}
+
+.card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-title:hover {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: unset;
+}
+img.img-responsive {
+  max-height: 30vh;
+}
+.centered {
+  position: absolute;
+  top: 10%;
+}
+.h1 {
+  color: #ffafaf;
+  -webkit-text-stroke: 2px black;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 50pt;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-align: center;
+}
+.row.wrapper {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+.toast {
+  position: absolute !important;
+  bottom: 5px;
+  left: 5px;
+  margin: 0;
+  padding: 5px 3px;
+}

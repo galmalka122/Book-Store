@@ -4,65 +4,124 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
-  <head th:replace="../fragments/head.html :: head(title='Store Manager')">
+  <head
+    th:replace="../fragments/head.html :: head((~{::title},~{::link},~{::script}))"
+  >
+    <header th:replace="../fragments/header.html :: header"></header>
+    <title>Manage Store</title>
+    <link rel="stylesheet" href="/resources/css/admin.css" />
+    <script type="module" src="/resources/js/admin.js"></script>
+    <script type="module" src="/resources/js/edit.js"></script>
   </head>
-  <body>
-    <nav th:replace="../fragments/navbar.html :: navbar"></nav>
-    <div class="container-fluid">
-      <div class="row">
-        <a href="/admin/addbook">Add a Book</a>
+  <body class="container-fluid">
+    <div class="row overflow-auto">
+      <div class="col-auto mx-auto">
+        <button class="btn btn-outline-secondary add-book">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-plus-square"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+            ></path>
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+            ></path>
+          </svg>
+          <span>Add Book</span>
+        </button>
       </div>
-      <div class="row">
-        <div th:switch="${books.size()}" class="col-auto">
-          <div th:case="0">no books yet!</div>
-          <div th:case="*">
-            <h2 class="my-5">Books</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-              <div th:each="book : ${books}" class="col">
-                <div th:replace="../fragments/card.html :: card(${book})"></div>
-              </div>
-            </div>
-            <!-- <table class="table table-striped table-responsive-md">
-              <caption>
-                books in stock:
-              </caption>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Discount</th>
-                  <th>Image</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="book : ${books}">
-                  <td th:text="${book.name}"></td>
-                  <td th:text="${book.price}"></td>
-                  <td th:text="${book.quantity}"></td>
-                  <td th:text="${book.discount}"></td>
-                  <td>
+      <div class="col-auto mx-auto">
+        <form th:action="@{/admin/search/1}" method="get">
+          <input
+            type="text"
+            name="keyword"
+            th:value="${keyword}"
+            placeholder="Search"
+            size="50"
+          />
+          <button type="submit">Search</button>
+          <button type="clear">Reset</button>
+        </form>
+      </div>
+    </div>
+    <div class="row overflow-auto">
+      <div th:switch="${listProducts.size()}" class="col-auto mx-auto">
+        <div th:case="0">no books yet!</div>
+        <div th:case="*">
+          <table class="table table-striped w-auto table-responsive">
+            <caption>
+              books in stock:
+            </caption>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Discount</th>
+                <th>Image</th>
+                <th>Operations</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="book : ${listProducts}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.name}"></td>
+                <td th:text="${book.price}"></td>
+                <td th:text="${book.quantity}"></td>
+                <td th:text="${book.discount}"></td>
+                <td>
+                  <div class="ratio">
                     <img th:src="${book.image}" alt="cover" />
-                  </td>
-                  <td sec:authorize="isAuthenticated()">
-                    <a
-                      class="btn btn-primary"
-                      th:href="@{/updatebook/{id}(id=${book.id})}"
-                    >
-                      update book
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table> -->
-          </div>
+                  </div>
+                </td>
+                <td>
+                  <button
+                    th:attr="data-book-id=${book.id}"
+                    class="btn btn-transparent update-book"
+                    th:href="@{/resources/asserts/default_cover.jpg}"
+                  >
+                    <img src="/resources/asserts/edit.png" alt="edit" />
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-transparent delete-book"
+                    th:attr="data-book-id=${book.id}"
+                  >
+                    <img src="/resources/asserts/delete.png" alt="delete" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <nav
+            th:replace="../fragments/page-btn.html :: page-btn('admin')"
+          ></nav>
         </div>
       </div>
     </div>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-      crossorigin="anonymous"
-    ></script>
+    <div
+      th:if="${not #strings.isEmpty(Msg)}"
+      class="toast align-items-center text-bg-primary border-0"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="d-flex">
+        <div class="toast-body" th:text="${Msg}"></div>
+        <button
+          type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+        ></button>
+      </div>
+    </div>
+    <div id="modal-section"></div>
   </body>
 </html>
